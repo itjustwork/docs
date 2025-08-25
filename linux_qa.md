@@ -120,6 +120,41 @@ A:
 - `lsof -i` - процессы использующие сеть
 - `nmap localhost` - сканирование портов
 
+**Q: Как работать с командой ifconfig?**
+A: `ifconfig` - утилита для настройки и просмотра сетевых интерфейсов:
+
+**Основные команды:**
+```bash
+# Показать все интерфейсы
+ifconfig
+
+# Показать конкретный интерфейс
+ifconfig eth0
+
+# Включить интерфейс
+ifconfig eth0 up
+
+# Выключить интерфейс
+ifconfig eth0 down
+
+# Настроить IP-адрес
+ifconfig eth0 192.168.1.100 netmask 255.255.255.0
+
+# Настроить IP-адрес с CIDR
+ifconfig eth0 192.168.1.100/24
+
+# Добавить дополнительный IP
+ifconfig eth0:0 192.168.1.101
+
+# Показать статистику
+ifconfig eth0 | grep -E "(RX|TX)"
+```
+
+**Полезные флаги:**
+- `-a` - показать все интерфейсы (включая выключенные)
+- `-s` - краткая статистика
+- `-v` - подробная информация
+
 **Q: С помощью какой утилиты в консоли linux можно захватить трафик для анализа?**
 A:
 - `tcpdump` - захват пакетов
@@ -186,6 +221,71 @@ A: `docker ps -a` показывает все контейнеры (запуще
 - `docker ps -a` - все контейнеры
 - `docker ps -q` - только ID контейнеров
 - `docker ps --format "table {{.Names}}\t{{.Status}}"` - кастомный формат
+
+**Q: Как посмотреть логи контейнера?**
+A:
+```bash
+# Логи конкретного контейнера
+docker logs container_name
+
+# Логи с временными метками
+docker logs -t container_name
+
+# Следить за логами в реальном времени
+docker logs -f container_name
+
+# Последние N строк логов
+docker logs --tail 100 container_name
+
+# Логи с определенного времени
+docker logs --since "2024-01-01T00:00:00" container_name
+```
+
+**Q: Как работать с Docker образами?**
+A:
+```bash
+# Посмотреть все образы
+docker images
+docker image ls
+
+# Посмотреть образы с фильтром
+docker images | grep nginx
+
+# Удалить образ
+docker rmi image_name
+docker image rm image_name
+
+# Удалить все неиспользуемые образы
+docker image prune -a
+
+# Посмотреть историю образа
+docker history image_name
+
+# Сохранить образ в файл
+docker save -o image.tar image_name
+
+# Загрузить образ из файла
+docker load -i image.tar
+```
+
+**Q: Как получить информацию о контейнере?**
+A:
+```bash
+# Детальная информация о контейнере
+docker inspect container_name
+
+# Только IP-адрес контейнера
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container_name
+
+# Статистика использования ресурсов
+docker stats container_name
+
+# Статистика всех контейнеров
+docker stats
+
+# Информация о дисковом пространстве
+docker system df
+```
 
 ## Копирование файлов с/на удаленный сервер
 
